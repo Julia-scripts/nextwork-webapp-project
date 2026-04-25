@@ -6,25 +6,35 @@ phases:
       java: corretto11
   pre_build:
     commands:
-      - echo "Checking Environment Variable..."
-      - if [ -z "$GITHUB_TOKEN" ]; then echo "TOKEN MISSING"; else echo "TOKEN FOUND"; fi
+      - echo "Checking environment..."
       - mkdir -p /root/.m2
+      # We are writing the settings.xml with hardcoded ID and your Username
       - |
-        echo '<?xml version="1.0" encoding="UTF-8"?>
-        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+        cat <<EOF > /root/.m2/settings.xml
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
           <servers>
             <server>
               <id>github</id>
               <username>Julia-scripts</username>
-              <password>${env.GITHUB_TOKEN}</password>
+              <password>${GITHUB_TOKEN}</password>
             </server>
           </servers>
-        </settings>' > /root/.m2/settings.xml
-      - echo "Verifying file location..."
-      - ls -la /root/.m2/settings.xml
+        </settings>
+        EOF
+      - echo "Settings.xml created at /root/.m2/settings.xml"
   build:
     commands:
       - echo "Starting Maven deploy..."
-      - mvn deploy -DskipTests -s /root/.m2/settings.xml
+      # Using -X gives us FULL debug logs if this fails!
+      - mvn deploy -DskipTests -s /root/.m2/settings.xml -X
+  post_build:
+    commands:
+      - echo "Build process finished."
+
+artifacts:
+  files:
+    - target/*.war
+  discard-paths: yes
