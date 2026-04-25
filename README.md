@@ -86,6 +86,21 @@ Tip to add: "Ensure that your AWS Security Group has an Inbound Rule allowing tr
 3. The GitHub Authentication Change
 Tip to add: "When pushing code from the EC2 terminal, use a GitHub Personal Access Token (PAT) instead of your password. For security, I used git config --global credential.helper cache to avoid re-entering it for every push."
 
+## Infrastructure & Artifacts
+
+<details>
+<summary><b>Click to see: The CodeArtifact Pivot (Bypass)</b></summary>
+
+### ⚠️ Blockage Encountered
+The original plan required **AWS CodeArtifact**. However, due to AWS account activation delays (24-hour verification hold), I pivoted to **GitHub Packages**.
+
+### The Solution
+* **Registry:** Used GitHub Package Registry instead of AWS CodeArtifact.
+* **Security:** Configured Maven `settings.xml` with a GitHub PAT (Personal Access Token).
+* **Build:** Successfully deployed the artifact using `mvn deploy`.
+
+> This pivot allowed the project to remain on schedule while demonstrating the ability to work across different cloud ecosystems (AWS + GitHub).
+</details>
 <br>
 
 ## Contact
