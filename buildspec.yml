@@ -23,7 +23,9 @@ phases:
         </settings>
         EOF
   build:
-    commands:
       - echo "Starting Maven deploy..."
+      commands:
+      - echo "Starting Maven build..."
+      - mvn package -DskipTests -s /root/.m2/settings.xml
       # We use -s to force the settings file we just built
-      - mvn deploy -DskipTests -s /root/.m2/settings.xml
+      - 
