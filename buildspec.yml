@@ -6,35 +6,24 @@ phases:
       java: corretto11
   pre_build:
     commands:
-      - echo "Checking environment..."
+      - echo "Creating Maven settings..."
       - mkdir -p /root/.m2
-      # We are writing the settings.xml with hardcoded ID and your Username
       - |
         cat <<EOF > /root/.m2/settings.xml
         <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
           <servers>
             <server>
               <id>github</id>
               <username>Julia-scripts</username>
-              <password>${GITHUB_TOKEN}</password>
+              <password>$GITHUB_TOKEN</password>
             </server>
           </servers>
         </settings>
         EOF
-      - echo "Settings.xml created at /root/.m2/settings.xml"
   build:
     commands:
       - echo "Starting Maven deploy..."
-      # Using -X gives us FULL debug logs if this fails!
-      - mvn deploy -DskipTests -s /root/.m2/settings.xml -X
-  post_build:
-    commands:
-      - echo "Build process finished."
-
-artifacts:
-  files:
-    - target/*.war
-  discard-paths: yes
+      # We use -s to force the settings file we just built
+      - mvn deploy -DskipTests -s /root/.m2/settings.xml
