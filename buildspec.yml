@@ -24,9 +24,9 @@ phases:
         EOF
   build:
     commands:
+      - echo "Current directory is:"
+      - pwd
+      - echo "Looking for pom.xml..."
+      - find . -name "pom.xml"
       - echo "Starting Maven build..."
       - mvn clean package -DskipTests -s /root/.m2/settings.xml
-artifacts:
-  files:
-    - target/*.war
-  discard-paths: yes
