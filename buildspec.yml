@@ -27,3 +27,7 @@ phases:
       - echo "Starting Maven deploy..."
       - mvn package -DskipTests -s /root/.m2/settings.xml
       # We use -s to force the settings file we just built
+      artifacts:
+  files:
+    - target/ROOT.war
+  discard-paths: yes
