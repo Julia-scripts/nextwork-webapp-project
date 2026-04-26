@@ -16,7 +16,7 @@ phases:
           <servers>
             <server>
               <id>github</id>
-              <username>Julia-scripts</username>
+              <username>julia-scripts</username>
               <password>$GITHUB_TOKEN</password>
             </server>
           </servers>
@@ -25,7 +25,7 @@ phases:
   build:
     commands:
       - echo "Starting Maven build..."
-      - mvn package -DskipTests -s /root/.m2/settings.xml
+      - mvn clean package -DskipTests -s /root/.m2/settings.xml
 artifacts:
   files:
     - target/*.war
