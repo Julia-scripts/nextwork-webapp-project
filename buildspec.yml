@@ -24,9 +24,11 @@ phases:
         EOF
   build:
     commands:
-      - echo "Current directory is:"
-      - pwd
-      - echo "Looking for pom.xml..."
-      - find . -name "pom.xml"
+      - echo "Moving into the project folder..."
+      - cd nextwork-web-project   # <--- THIS IS THE KEY!
       - echo "Starting Maven build..."
       - mvn clean package -DskipTests -s /root/.m2/settings.xml
+artifacts:
+  files:
+    - nextwork-web-project/target/*.war
+  discard-paths: yes
