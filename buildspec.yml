@@ -28,5 +28,5 @@ phases:
       - mvn package -DskipTests -s /root/.m2/settings.xml
 artifacts:
   files:
-    - '**/ROOT.war'
+    - target/*.war
   discard-paths: yes
