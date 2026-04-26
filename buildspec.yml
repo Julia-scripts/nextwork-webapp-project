@@ -24,13 +24,12 @@ phases:
         EOF
   build:
     commands:
-      - echo "Locating project folder..."
-      - PROJECT_DIR=$(find . -name "pom.xml" -exec dirname {} \;)
-      - echo "Moving into $PROJECT_DIR"
-      - cd $PROJECT_DIR
       - echo "Starting Maven build..."
       - mvn clean package -DskipTests -s /root/.m2/settings.xml
+      - echo "Verifying file size..."
+      - ls -lh target/
+
 artifacts:
   files:
-    - '**/target/*.war'
+    - target/*.war
   discard-paths: yes
