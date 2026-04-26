@@ -24,10 +24,9 @@ phases:
         EOF
   build:
     commands:
-      - echo "Starting Maven deploy..."
+      - echo "Starting Maven build..."
       - mvn package -DskipTests -s /root/.m2/settings.xml
-      # We use -s to force the settings file we just built
-      artifacts:
+artifacts:
   files:
     - target/ROOT.war
   discard-paths: yes
